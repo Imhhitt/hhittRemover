@@ -1,0 +1,44 @@
+# _     _     _ _   _          _____
+# | |   | |   (_) | | |        |  __ \
+# | |__ | |__  _| |_| |_ ______| |__) |___ _ __ ___   _____   _____ _ __
+# | '_ \| '_ \| | __| __|______|  _  // _ \ '_ ` _ \ / _ \ \ / / _ \ '__|
+# | | | | | | | | |_| |_       | | \ \  __/ | | | | | (_) \ V /  __/ |
+# |_| |_|_| |_|_|\__|\__|      |_|  \_\___|_| |_| |_|\___/ \_/ \___|_|
+# Useful links!
+# hhitt-Remover documentation: https://hhitt-1.gitbook.io/hhitt-remover-documentation
+# discord server for support or suggestions: https://discord.com/invite/y9Gz42VPZC
+
+Messages:
+  Reload: "&bhhitt-Remover reloaded successfully!"
+  No-Permission: "&cYou don't have permission to perform that!"
+
+
+Worlds:
+  # Name of the world that you want the plugin works.
+  world:
+    Blocks:
+      # List of blocks, replace "EXAMPLE" with any block, like "OBSIDIAN"
+      EXAMPLE:
+        Time: 10
+    Entities:
+      # List of entities, replace "EXAMPLE" with any block, like "ENDER_CRYSTAL"
+      EXAMPLE:
+        Time: 10
+        # Time is in seconds!!!
+
+
+# FULL EXAMPLE:
+  hhittWorldName:  # The name of the world
+    Blocks:
+      GLOWSTONE:    # Block1
+        Time: 15    # Time in seconds for glowstone
+      OBSIDIAN:     # Block 2
+        Time: 10    # Time in seconds for obsidian
+      GRASS_BLOCK:  # Block 3 (add all of you want)
+        Time: 30    # Time in seconds for grass block
+    Entities:
+      ENDER_CRYSTAL: # Entity to remove
+        Time: 10     # Time in seconds for remove the Ender crystal
+
+ # Add all the worlds u want! dont forget to set the flag of this plugin in "allow"
+ # at the WorldGuard regions you want to use.
