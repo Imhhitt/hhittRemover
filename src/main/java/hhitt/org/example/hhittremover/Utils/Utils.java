@@ -35,14 +35,13 @@ public class Utils {
             return;
         if (location.getBlock().getType() == Material.AIR)
             return;
-        ((World)Objects.<World>requireNonNull(location.getWorld())).getBlockAt(location).setType(Material.AIR);
+        Objects.requireNonNull(location.getWorld()).getBlockAt(location).setType(Material.AIR);
     }
 
     public static void removeEntity(Entity entity) {
         entities.remove(entity.getLocation());
-        if (!canRemoveHere(entity.getLocation()))
-            return;
-        if (entity.isDead())
+        if (!canRemoveHere(
+                entity.getLocation()) || entity.isDead())
             return;
         entity.remove();
     }
@@ -51,7 +50,7 @@ public class Utils {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
         ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
-        return set.testState(null, new StateFlag[] { HhittRemover.CUSTOM_FLAG });
+        return set.testState(null, HhittRemover.CUSTOM_FLAG);
     }
 
     public static String colorize(String string) {

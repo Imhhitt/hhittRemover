@@ -3,13 +3,12 @@ package hhitt.org.example.hhittremover.Listeners;
 import hhitt.org.example.hhittremover.HhittRemover;
 import hhitt.org.example.hhittremover.Utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class BlockListener implements Listener {
@@ -17,22 +16,25 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if (!Utils.canRemoveHere(block.getLocation()))
+        Location location = block.getLocation();
+
+        if (!Utils.canRemoveHere(location)) {
             return;
-        Material material = block.getType();
-        String worldName = Objects.requireNonNull(event.getBlock().getLocation().getWorld()).getName();
-        if (!HhittRemover.getInstance().getConfig().contains("Worlds." + worldName))
-            return;
-        if (!HhittRemover.getInstance().getConfig().contains("Worlds." + worldName + ".Blocks." + material + ".Time"))
-            return;
-        List<String> materials = new ArrayList<>(Objects.requireNonNull(HhittRemover.getInstance().getConfig().getConfigurationSection(
-                "Worlds." + worldName + ".Blocks")).getKeys(false));
-        for (String mat : materials) {
-            if (mat.equals(material.toString())) {
-                int time = HhittRemover.getInstance().getConfig().getInt("Worlds." + worldName + ".Blocks." + material + ".Time");
-                Utils.getBlocks().put(block.getLocation(), block);
-                Bukkit.getScheduler().runTaskLater(HhittRemover.getInstance(), () -> Utils.removeBlock(block.getLocation()), 20L * time);
-            }
         }
+
+        Material material = block.getType();
+        String worldName = Objects.requireNonNull(location.getWorld()).getName();
+
+        String worldPath = "Worlds." + worldName;
+        String materialPath = worldPath + ".Blocks." + material + ".Time";
+
+        HhittRemover instance = HhittRemover.getInstance();
+        if (!instance.getConfig().contains(worldPath) || !instance.getConfig().contains(materialPath)) {
+            return;
+        }
+
+        int time = instance.getConfig().getInt(materialPath);
+        Utils.getBlocks().put(location, block);
+        Bukkit.getScheduler().runTaskLater(instance, () -> Utils.removeBlock(location), 20L * time);
     }
 }

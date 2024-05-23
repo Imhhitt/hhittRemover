@@ -8,8 +8,8 @@ public class WorldConfiguration extends ConfigMaster {
         super(configurationName, "" + HhittRemover.getInstance().getDataFolder() + "/Worlds");
         if (isFirstTime()) {
             YamlConfiguration configuration = getConfiguration();
-            configuration.addDefault("Blocks.EXAMPLE.Time", Integer.valueOf(10));
-            configuration.addDefault("Entities.EXAMPLE.Time", Integer.valueOf(10));
+            configuration.addDefault("Blocks.EXAMPLE.Time", 10);
+            configuration.addDefault("Entities.EXAMPLE.Time", 10);
             configuration.options().copyDefaults(true);
             save();
         }

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class ReloadConfigCommand implements CommandExecutor {
 
-    private HhittRemover plugin;
+    private final HhittRemover plugin;
 
     public ReloadConfigCommand(HhittRemover plugin) {
         this.plugin = plugin;
@@ -18,17 +18,19 @@ public class ReloadConfigCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             plugin.reloadConfig();
             sender.sendMessage(Utils.colorize(plugin.getConfig().getString("Messages.Reload")));
             return true;
         }
-        if(!sender.hasPermission("hhittremover.admin")){
+
+        if (!sender.hasPermission("hhittremover.admin")) {
             sender.sendMessage(Utils.colorize(plugin.getConfig().getString("Messages.No-Permission")));
-        }else{
-            plugin.reloadConfig();
-            sender.sendMessage(Utils.colorize(plugin.getConfig().getString("Messages.Reload")));
+            return true;
         }
+
+        plugin.reloadConfig();
+        sender.sendMessage(Utils.colorize(plugin.getConfig().getString("Messages.Reload")));
         return true;
     }
 }
