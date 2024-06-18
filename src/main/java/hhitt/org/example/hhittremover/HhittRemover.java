@@ -8,6 +8,7 @@ import hhitt.org.example.hhittremover.Configuration.ReloadConfigCommand;
 import hhitt.org.example.hhittremover.Configuration.WorldConfiguration;
 import hhitt.org.example.hhittremover.Listeners.BlockListener;
 import hhitt.org.example.hhittremover.Listeners.Entitylistener;
+import hhitt.org.example.hhittremover.Utils.Metrics;
 import hhitt.org.example.hhittremover.Utils.Utils;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,6 +56,10 @@ public final class HhittRemover extends JavaPlugin {
         sendHeader();
         send("&dhhitt-Remover started working.");
         Objects.requireNonNull(getCommand("hhittremover-reload")).setExecutor(new ReloadConfigCommand(this));
+
+        int pluginId = 22314;
+        Metrics metrics = new Metrics(this, pluginId);
+
     }
 
     public void onDisable() {
