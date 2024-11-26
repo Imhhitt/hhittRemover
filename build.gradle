@@ -2,12 +2,11 @@ plugins {
     id 'java'
 }
 
-group = 'hhitt.org.example'
-version = '2.1.1'
+group = 'dev.smartshub'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven { url "https://maven.enginehub.org/repo/" }
     maven {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
@@ -16,11 +15,15 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+
+    maven {
+        url "https://maven.enginehub.org/repo/"
+    }
 }
 
 dependencies {
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
-    compileOnly "org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
+    compileOnly ("com.sk89q.worldguard:worldguard-bukkit:7.0.7")
 }
 
 def targetJavaVersion = 17
