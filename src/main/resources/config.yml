@@ -16,6 +16,7 @@ messages:
 
 # If this option is enabled, in the regions where "hhitt-remover" flag is enabled
 # players will not be able to place blocks that are not listed in "blocks". Same goes for entities.
+# Why is this useful? Prevent placing blocks or entities that will not be cleaned.
 flag-limit-placing: true
 
 # In the following section you can define the worlds where you want to remove blocks and entities.

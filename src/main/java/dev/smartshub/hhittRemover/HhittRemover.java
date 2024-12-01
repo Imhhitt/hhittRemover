@@ -5,21 +5,23 @@ import dev.smartshub.hhittRemover.cleaner.CleanManager;
 import dev.smartshub.hhittRemover.commands.MainCommand;
 import dev.smartshub.hhittRemover.commands.MainCommandTabCompleter;
 import dev.smartshub.hhittRemover.config.MainConfigManager;
-import dev.smartshub.hhittRemover.listeners.BlockFromToListener;
+import dev.smartshub.hhittRemover.hooks.bstats.Metrics;
 import dev.smartshub.hhittRemover.listeners.BlockPlaceListener;
 import dev.smartshub.hhittRemover.listeners.EntityPlaceListener;
 import dev.smartshub.hhittRemover.listeners.PlayerBucketEmptyListener;
-import dev.smartshub.hhittRemover.utils.RemoveHelper;
-import dev.smartshub.hhittRemover.worldguard.FlagManager;
+import dev.smartshub.hhittRemover.utils.ListenerHelper;
+import dev.smartshub.hhittRemover.utils.RemoveUtils;
+import dev.smartshub.hhittRemover.hooks.worldguard.FlagManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HhittRemover extends JavaPlugin {
 
     private MainConfigManager mainConfigManager;
     private CleanManager cleanManager;
-    private RemoveHelper removeHelper;
+    private RemoveUtils removeHelper;
     private final FlagManager flagManager = new FlagManager();
     private WorldGuardPlugin wgPlugin = WorldGuardPlugin.inst();
+    private ListenerHelper listenerHelper;
 
     @Override
     public void onLoad() {
@@ -33,11 +35,8 @@ public final class HhittRemover extends JavaPlugin {
         // Check for WorldGuard, if it is not installed, then hhitt-Remover should be disabled
         wgDependencyCheck();
 
-        // Plugin startup logic
-        mainConfigManager = new MainConfigManager(this);
-        mainConfigManager.loadConfig();
-        cleanManager = new CleanManager(this);
-        removeHelper = new RemoveHelper(this, cleanManager);
+        // Initialize the managers
+        initManagers();
 
         // Register the event listeners
         registerListeners();
@@ -45,19 +44,10 @@ public final class HhittRemover extends JavaPlugin {
         // Register the command
         registerCommands();
 
+        // Hook with bStats
+        loadBStats();
     }
 
-    private void registerListeners(){
-        getServer().getPluginManager().registerEvents(new BlockPlaceListener(flagManager, cleanManager, wgPlugin, removeHelper), this);
-        getServer().getPluginManager().registerEvents(new EntityPlaceListener(flagManager, cleanManager, wgPlugin, removeHelper), this);
-        getServer().getPluginManager().registerEvents(new BlockFromToListener(flagManager, cleanManager, wgPlugin, removeHelper), this);
-        getServer().getPluginManager().registerEvents(new PlayerBucketEmptyListener(flagManager, cleanManager, wgPlugin, removeHelper), this);
-    }
-
-    private void registerCommands(){
-        getCommand("hhittremover").setExecutor(new MainCommand(this, cleanManager, mainConfigManager));
-        getCommand("hhittremover").setTabCompleter(new MainCommandTabCompleter());
-    }
 
     private void wgDependencyCheck(){
         if (wgPlugin == null) {
@@ -70,6 +60,30 @@ public final class HhittRemover extends JavaPlugin {
         if (!flagManager.isFlagRegistered()) {
             getLogger().warning("The custom flag 'hhitt-remover' could not be registered!");
         }
+    }
+
+    private void initManagers(){
+        mainConfigManager = new MainConfigManager(this);
+        mainConfigManager.loadConfig();
+        cleanManager = new CleanManager(this);
+        removeHelper = new RemoveUtils(this, cleanManager);
+        listenerHelper = new ListenerHelper(flagManager, cleanManager, wgPlugin, removeHelper);
+    }
+
+    private void registerListeners(){
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(listenerHelper), this);
+        getServer().getPluginManager().registerEvents(new EntityPlaceListener(listenerHelper), this);
+        getServer().getPluginManager().registerEvents(new PlayerBucketEmptyListener(listenerHelper), this);
+    }
+
+    private void registerCommands(){
+        getCommand("hhittremover").setExecutor(new MainCommand(this, cleanManager, mainConfigManager));
+        getCommand("hhittremover").setTabCompleter(new MainCommandTabCompleter());
+    }
+
+    private void loadBStats(){
+        int pluginId = 22314;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 
 }

@@ -16,6 +16,9 @@ public class CleanManager {
         loadConfig();
     }
 
+    /**
+     * Load the cleaner configuration from the config.yml file
+     */
     public void loadConfig() {
         // Get the cleaner section from the configuration
         ConfigurationSection cleanerSection = plugin.getConfig().getConfigurationSection("cleaner");
