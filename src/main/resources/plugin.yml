@@ -7,4 +7,5 @@ commands:
   hhittremover:
     description: Reload the plugin
     usage: /hhittremover
+    permission: hhittremover.admin
     aliases: [ hr, remover ]
