@@ -33,7 +33,7 @@ public class FlagManager {
     /**
      * obtain HHITT_REMOVER_FLAG.
      *
-     * @return my custom flag.
+     * @return my flag.
      */
     public StateFlag getHhittRemoverFlag() {
         return this.hhittRemoverFlag;

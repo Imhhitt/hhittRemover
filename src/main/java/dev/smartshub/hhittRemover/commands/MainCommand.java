@@ -25,7 +25,7 @@ public class MainCommand implements CommandExecutor {
 
         // Check for admin permissions
         if(!sender.hasPermission("hhittremover.admin")){
-            sender.sendMessage(MessageUtils.parse(plugin.getConfig().getString("messages.no-permission")));
+            MessageUtils.msg(plugin, sender, "no-permission");
             return true;
         }
 
@@ -33,12 +33,12 @@ public class MainCommand implements CommandExecutor {
         if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
             mainConfigManager.reloadConfig();
             cleanManager.loadConfig();
-            sender.sendMessage(MessageUtils.parse(plugin.getConfig().getString("messages.config-reloaded")));
+            MessageUtils.msg(plugin, sender, "config-reloaded");
             return true;
         }
 
         // The sole command is the reload one, then no more commands are available
-        sender.sendMessage(MessageUtils.parse(plugin.getConfig().getString("messages.no-such-command")));
+        MessageUtils.msg(plugin, sender, "no-such-command");
         return true;
     }
 }

@@ -2,7 +2,6 @@ package dev.smartshub.hhittRemover.listeners;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
@@ -12,11 +11,9 @@ import dev.smartshub.hhittRemover.cleaner.CleanManager;
 import dev.smartshub.hhittRemover.utils.RemoveHelper;
 import dev.smartshub.hhittRemover.worldguard.FlagManager;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockFromToListener implements Listener{
 

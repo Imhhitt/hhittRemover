@@ -18,11 +18,18 @@ public class RemoveHelper {
         this.cleanManager = cleanManager;
     }
 
+    /**
+     * Check if the plugin is limiting which blocks can be placed
+     * @return true if is enabled, false otherwise
+     */
     public boolean isPlacingLimited() {
         return plugin.getConfig().getBoolean("flag-limit-placing");
     }
 
-    // Delete a block after a certain amount of time
+
+    /**
+     * Remove a block after a certain amount of time
+     */
     public void removeBlock(Block block) {
         int delayInSeconds = cleanManager.getBlockTime(block.getLocation().getWorld().getName(), block.getType().name());
         new BukkitRunnable() {
@@ -33,7 +40,10 @@ public class RemoveHelper {
         }.runTaskLater(plugin, delayInSeconds * 20L);
     }
 
-    // Remove an entity after a certain amount of time
+
+    /**
+     * Remove an entity after a certain amount of time
+     */
     public void removeEntity(Entity entity) {
         int delayInSeconds = cleanManager.getEntityTime(entity.getWorld().getName(), entity.getType().name());
         new BukkitRunnable() {
