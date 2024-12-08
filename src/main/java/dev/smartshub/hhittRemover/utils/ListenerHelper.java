@@ -18,13 +18,13 @@ public class ListenerHelper {
 
     private final FlagManager flagManager;
     private final CleanManager cleanManager;
-    private final RemoveUtils removeHelper;
+    private final RemoveUtils removeUtils;
     private final WorldGuardPlugin wgPlugin;
 
-    public ListenerHelper(FlagManager flagManager, CleanManager cleanManager, WorldGuardPlugin wgPlugin, RemoveUtils removeHelper){
+    public ListenerHelper(FlagManager flagManager, CleanManager cleanManager, WorldGuardPlugin wgPlugin, RemoveUtils remmoveUtils) {
         this.flagManager = flagManager;
         this.cleanManager = cleanManager;
-        this.removeHelper = removeHelper;
+        this.removeUtils = remmoveUtils;
         this.wgPlugin = wgPlugin;
     }
 
@@ -61,15 +61,15 @@ public class ListenerHelper {
     }
 
     public boolean isPlacingAllowed(){
-       return removeHelper.isPlacingLimited();
+       return removeUtils.isPlacingLimited();
     }
 
     public void removeBlock(Block block){
-        removeHelper.removeBlock(block);
+        removeUtils.removeBlock(block);
     }
 
     public void removeEntity(Entity entity){
-        removeHelper.removeEntity(entity);
+        removeUtils.removeEntity(entity);
     }
 
     public boolean isWorldCleanable(String worldName){
