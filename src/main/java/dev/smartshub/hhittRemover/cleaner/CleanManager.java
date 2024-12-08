@@ -1,7 +1,10 @@
 package dev.smartshub.hhittRemover.cleaner;
 
 import dev.smartshub.hhittRemover.HhittRemover;
+import dev.smartshub.hhittRemover.cleaner.task.CleaningTask;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +13,13 @@ public class CleanManager {
 
     private final HhittRemover plugin;
     private final Map<String, Map<String, Integer>> cleanerConfig = new HashMap<>();
+    private final HashMap<Block, Integer> blocksToClean = new HashMap<>();
+    private final HashMap<Entity, Integer> entitiesToClean = new HashMap<>();
 
     public CleanManager(HhittRemover plugin) {
         this.plugin = plugin;
         loadConfig();
+        startCleaningTask();
     }
 
     /**
@@ -56,6 +62,22 @@ public class CleanManager {
         }
     }
 
+    public void addBlockToClean(Block block) {
+        blocksToClean.put(block, getBlockTime(block.getWorld().getName(), block.getType().name()));
+    }
+
+    public void addEntityToClean(Entity entity) {
+        entitiesToClean.put(entity, getEntityTime(entity.getWorld().getName(), entity.getType().name()));
+    }
+
+    public HashMap<Block, Integer> getBlocksToClean() {
+        return blocksToClean;
+    }
+
+    public HashMap<Entity, Integer> getEntitiesToClean() {
+        return entitiesToClean;
+    }
+
     public boolean isWorldCleanable(String world) {
         return cleanerConfig.containsKey(world);
     }
@@ -74,6 +96,10 @@ public class CleanManager {
 
     public int getEntityTime(String world, String entity) {
         return cleanerConfig.get(world).get(entity);
+    }
+
+    public void startCleaningTask() {
+        new CleaningTask(this).runTaskTimer(plugin, 0, 20L);
     }
 
 }
