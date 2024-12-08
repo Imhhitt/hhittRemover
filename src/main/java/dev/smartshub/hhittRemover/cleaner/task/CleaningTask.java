@@ -19,36 +19,35 @@ public class CleaningTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        // Using iterators to remove elements from the map while iterating
 
+        // Removing blocks
         Iterator<Map.Entry<Block, Integer>> blockIterator = cleanManager.getBlocksToClean().entrySet().iterator();
-
         while (blockIterator.hasNext()) {
             Map.Entry<Block, Integer> entry = blockIterator.next();
             Block block = entry.getKey();
-            int time = entry.getValue();
-            if (time <= 0) {
+            int remainingTime = entry.getValue() - 1;
+
+            if (remainingTime <= 0) {
                 block.getLocation().getBlock().setType(Material.AIR);
-                blockIterator.remove();
-                continue;
+                cleanManager.removeBlockFromClean(block);
+            } else {
+                cleanManager.updateBlockTime(block, remainingTime);
             }
-            entry.setValue(time - 1);
         }
 
+        // Removing entities
         Iterator<Map.Entry<Entity, Integer>> entityIterator = cleanManager.getEntitiesToClean().entrySet().iterator();
-
         while (entityIterator.hasNext()) {
             Map.Entry<Entity, Integer> entry = entityIterator.next();
             Entity entity = entry.getKey();
-            int time = entry.getValue();
-            if (time <= 0) {
+            int remainingTime = entry.getValue() - 1;
+
+            if (remainingTime <= 0) {
                 entity.remove();
-                entityIterator.remove();
-                continue;
+                cleanManager.removeEntityFromClean(entity);
+            } else {
+                cleanManager.updateEntityTime(entity, remainingTime);
             }
-            entry.setValue(time - 1);
         }
     }
 }
-
-
