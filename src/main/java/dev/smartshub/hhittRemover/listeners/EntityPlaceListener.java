@@ -1,7 +1,6 @@
 package dev.smartshub.hhittRemover.listeners;
 
 import dev.smartshub.hhittRemover.utils.ListenerHelper;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +46,7 @@ public class EntityPlaceListener implements Listener {
             return;
         }
 
-        if(!player.hasPermission("hhittremover.bypass")){
+        if (player != null && !player.hasPermission("hhittremover.bypass")) {
             event.setCancelled(true);
         }
 

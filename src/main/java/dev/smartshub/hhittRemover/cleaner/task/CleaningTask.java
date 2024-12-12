@@ -21,33 +21,29 @@ public class CleaningTask extends BukkitRunnable {
     public void run() {
 
         // Removing blocks
-        Iterator<Map.Entry<Block, Integer>> blockIterator = cleanManager.getBlocksToClean().entrySet().iterator();
+        Iterator<Map.Entry<Block, Long>> blockIterator = cleanManager.getBlocksToClean().entrySet().iterator();
         while (blockIterator.hasNext()) {
-            Map.Entry<Block, Integer> entry = blockIterator.next();
-            Block block = entry.getKey();
-            int remainingTime = entry.getValue() - 1;
-
-            if (remainingTime <= 0) {
-                block.getLocation().getBlock().setType(Material.AIR);
-                cleanManager.removeBlockFromClean(block);
-            } else {
-                cleanManager.updateBlockTime(block, remainingTime);
+            Map.Entry<Block, Long> entry = blockIterator.next();
+            if (System.currentTimeMillis() >= entry.getValue()) {
+                Block block = entry.getKey();
+                block.setType(Material.AIR);
+                blockIterator.remove();
             }
         }
 
         // Removing entities
-        Iterator<Map.Entry<Entity, Integer>> entityIterator = cleanManager.getEntitiesToClean().entrySet().iterator();
+        Iterator<Map.Entry<Entity, Long>> entityIterator = cleanManager.getEntitiesToClean().entrySet().iterator();
         while (entityIterator.hasNext()) {
-            Map.Entry<Entity, Integer> entry = entityIterator.next();
-            Entity entity = entry.getKey();
-            int remainingTime = entry.getValue() - 1;
-
-            if (remainingTime <= 0) {
+            Map.Entry<Entity, Long> entry = entityIterator.next();
+            if (System.currentTimeMillis() >= entry.getValue()) {
+                Entity entity = entry.getKey();
                 entity.remove();
-                cleanManager.removeEntityFromClean(entity);
-            } else {
-                cleanManager.updateEntityTime(entity, remainingTime);
+                entityIterator.remove();
             }
         }
     }
 }
+
+
+
+

@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CleanManager {
     private final HhittRemover plugin;
     private final Map<String, Map<String, Integer>> cleanerConfig = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<Block, Integer> blocksToClean = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<Entity, Integer> entitiesToClean = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Block, Long> blocksToClean = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Entity, Long> entitiesToClean = new ConcurrentHashMap<>();
 
     public CleanManager(HhittRemover plugin) {
         this.plugin = plugin;
@@ -78,7 +78,8 @@ public class CleanManager {
             return;
         }
 
-        blocksToClean.put(block, getBlockTime(world, blockType));
+        long blockMs = System.currentTimeMillis() + (getBlockTime(world, blockType) * 1000L);
+        blocksToClean.put(block, blockMs);
     }
 
     /**
@@ -94,57 +95,16 @@ public class CleanManager {
             return;
         }
 
-        entitiesToClean.put(entity, getEntityTime(world, entityType));
-    }
-
-    /**
-     * Removes a specific block from cleaning queue
-     * @param block Block to remove
-     */
-    public void removeBlockFromClean(Block block) {
-        blocksToClean.remove(block);
-    }
-
-    /**
-     * Removes a specific entity from cleaning queue
-     * @param entity Entity to remove
-     */
-    public void removeEntityFromClean(Entity entity) {
-        entitiesToClean.remove(entity);
-    }
-
-    /**
-     * Update the remaining time for a block
-     * @param block Block to update
-     * @param remainingTime New remaining time
-     */
-    public void updateBlockTime(Block block, int remainingTime) {
-        if (remainingTime > 0) {
-            blocksToClean.put(block, remainingTime);
-        } else {
-            blocksToClean.remove(block);
-        }
-    }
-
-    /**
-     * Update the remaining time for an entity
-     * @param entity Entity to update
-     * @param remainingTime New remaining time
-     */
-    public void updateEntityTime(Entity entity, int remainingTime) {
-        if (remainingTime > 0) {
-            entitiesToClean.put(entity, remainingTime);
-        } else {
-            entitiesToClean.remove(entity);
-        }
+        long entityMs = System.currentTimeMillis() + (getEntityTime(world, entityType) * 1000L);
+        entitiesToClean.put(entity, entityMs);
     }
 
     // Maps getters
-    public ConcurrentHashMap<Block, Integer> getBlocksToClean() {
+    public ConcurrentHashMap<Block, Long> getBlocksToClean() {
         return blocksToClean;
     }
 
-    public ConcurrentHashMap<Entity, Integer> getEntitiesToClean() {
+    public ConcurrentHashMap<Entity, Long> getEntitiesToClean() {
         return entitiesToClean;
     }
 
