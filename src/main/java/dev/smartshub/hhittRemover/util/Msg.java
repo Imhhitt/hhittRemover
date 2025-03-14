@@ -1,10 +1,10 @@
-package dev.smartshub.hhittRemover.utils;
+package dev.smartshub.hhittRemover.util;
 
 import dev.smartshub.hhittRemover.HhittRemover;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class MessageUtils {
+public class Msg {
 
     /**
      * Send a message to a CommandSender

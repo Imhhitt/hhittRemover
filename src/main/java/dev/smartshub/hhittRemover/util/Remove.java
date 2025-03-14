@@ -1,4 +1,4 @@
-package dev.smartshub.hhittRemover.utils;
+package dev.smartshub.hhittRemover.util;
 
 import dev.smartshub.hhittRemover.HhittRemover;
 import dev.smartshub.hhittRemover.cleaner.CleanManager;
@@ -6,12 +6,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 
 
-public class RemoveUtils {
+public class Remove {
 
     private final HhittRemover plugin;
     private final CleanManager cleanManager;
 
-    public RemoveUtils(HhittRemover plugin, CleanManager cleanManager) {
+    public Remove(HhittRemover plugin, CleanManager cleanManager) {
         this.plugin = plugin;
         this.cleanManager = cleanManager;
     }

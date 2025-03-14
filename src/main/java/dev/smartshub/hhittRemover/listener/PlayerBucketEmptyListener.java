@@ -1,24 +1,24 @@
-package dev.smartshub.hhittRemover.listeners;
+package dev.smartshub.hhittRemover.listener;
 
-import dev.smartshub.hhittRemover.utils.ListenerHelper;
-import org.bukkit.entity.Entity;
+import dev.smartshub.hhittRemover.util.ListenerHelper;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
-public class EntityPlaceListener implements Listener {
+public class PlayerBucketEmptyListener implements Listener {
 
     private final ListenerHelper listenerHelper;
 
-    public EntityPlaceListener(ListenerHelper listenerHelper){
+    public PlayerBucketEmptyListener(ListenerHelper listenerHelper){
         this.listenerHelper = listenerHelper;
     }
 
     @EventHandler
-    public void onEntityPlace(EntityPlaceEvent event) {
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         String worldName = event.getBlock().getWorld().getName();
-        Entity entity = event.getEntity();
+        Block block = event.getBlock();
 
         // If world is not listed in config, then we must return to avoid unnecessary checks
         if(!listenerHelper.isWorldCleanable(worldName)) {
@@ -29,16 +29,16 @@ public class EntityPlaceListener implements Listener {
         Player player = event.getPlayer();
 
         // Checks the flag state
-        boolean hasCustomFlag = listenerHelper.checkFlag(player, entity.getLocation());
+        boolean hasCustomFlag = listenerHelper.checkFlag(player, block.getLocation());
         if (!hasCustomFlag) {
             return;
         }
 
-        /* Check if the entity is contained at config for this world.
+        /* Check if the block is contained at config for this world.
          * If it is not, then we must check if block-place is limited to
          * blocks from list to players, and if it is, cancel event. */
-        if(listenerHelper.isEntityCleanable(worldName, entity.getType().name())) {
-            listenerHelper.removeEntity(entity);
+        if(listenerHelper.isBlockCleanable(worldName, block.getType().name())) {
+            listenerHelper.removeBlock(block);
             return;
         }
 
@@ -46,9 +46,10 @@ public class EntityPlaceListener implements Listener {
             return;
         }
 
-        if (player != null && !player.hasPermission("hhittremover.bypass")) {
+        if(!player.hasPermission("hhittremover.bypass")){
             event.setCancelled(true);
         }
+
 
     }
 }

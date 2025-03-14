@@ -1,22 +1,23 @@
-package dev.smartshub.hhittRemover.listeners;
+package dev.smartshub.hhittRemover.listener;
 
-import dev.smartshub.hhittRemover.utils.ListenerHelper;
+import dev.smartshub.hhittRemover.util.ListenerHelper;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
-public class PlayerBucketEmptyListener implements Listener {
+public class BlockPlaceListener implements Listener {
+
 
     private final ListenerHelper listenerHelper;
 
-    public PlayerBucketEmptyListener(ListenerHelper listenerHelper){
+    public BlockPlaceListener(ListenerHelper listenerHelper){
         this.listenerHelper = listenerHelper;
     }
 
     @EventHandler
-    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
+    public void onBlockPlace(BlockPlaceEvent event) {
         String worldName = event.getBlock().getWorld().getName();
         Block block = event.getBlock();
 
@@ -50,6 +51,7 @@ public class PlayerBucketEmptyListener implements Listener {
             event.setCancelled(true);
         }
 
-
     }
+
 }
+

@@ -12,7 +12,7 @@
  *
  * Violations will result in a ban of your plugin and account from bStats.
  */
-package dev.smartshub.hhittRemover.hooks.bstats;
+package dev.smartshub.hhittRemover.hook.bstats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

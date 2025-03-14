@@ -1,4 +1,4 @@
-package dev.smartshub.hhittRemover.commands;
+package dev.smartshub.hhittRemover.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

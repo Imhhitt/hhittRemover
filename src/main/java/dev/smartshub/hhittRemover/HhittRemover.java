@@ -2,23 +2,23 @@ package dev.smartshub.hhittRemover;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import dev.smartshub.hhittRemover.cleaner.CleanManager;
-import dev.smartshub.hhittRemover.commands.MainCommand;
-import dev.smartshub.hhittRemover.commands.MainCommandTabCompleter;
+import dev.smartshub.hhittRemover.command.MainCommand;
+import dev.smartshub.hhittRemover.command.MainCommandTabCompleter;
 import dev.smartshub.hhittRemover.config.MainConfigManager;
-import dev.smartshub.hhittRemover.hooks.bstats.Metrics;
-import dev.smartshub.hhittRemover.listeners.BlockPlaceListener;
-import dev.smartshub.hhittRemover.listeners.EntityPlaceListener;
-import dev.smartshub.hhittRemover.listeners.PlayerBucketEmptyListener;
-import dev.smartshub.hhittRemover.utils.ListenerHelper;
-import dev.smartshub.hhittRemover.utils.RemoveUtils;
-import dev.smartshub.hhittRemover.hooks.worldguard.FlagManager;
+import dev.smartshub.hhittRemover.hook.bstats.Metrics;
+import dev.smartshub.hhittRemover.listener.BlockPlaceListener;
+import dev.smartshub.hhittRemover.listener.EntityPlaceListener;
+import dev.smartshub.hhittRemover.listener.PlayerBucketEmptyListener;
+import dev.smartshub.hhittRemover.util.ListenerHelper;
+import dev.smartshub.hhittRemover.util.Remove;
+import dev.smartshub.hhittRemover.hook.worldguard.FlagManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HhittRemover extends JavaPlugin {
 
     private MainConfigManager mainConfigManager;
     private CleanManager cleanManager;
-    private RemoveUtils removeHelper;
+    private Remove removeHelper;
     private final FlagManager flagManager = new FlagManager();
     private WorldGuardPlugin wgPlugin = WorldGuardPlugin.inst();
     private ListenerHelper listenerHelper;
@@ -66,7 +66,7 @@ public final class HhittRemover extends JavaPlugin {
         mainConfigManager = new MainConfigManager(this);
         mainConfigManager.loadConfig();
         cleanManager = new CleanManager(this);
-        removeHelper = new RemoveUtils(this, cleanManager);
+        removeHelper = new Remove(this, cleanManager);
         listenerHelper = new ListenerHelper(flagManager, cleanManager, wgPlugin, removeHelper);
     }
 

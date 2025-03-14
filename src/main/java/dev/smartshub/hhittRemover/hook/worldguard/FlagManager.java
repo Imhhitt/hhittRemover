@@ -1,4 +1,4 @@
-package dev.smartshub.hhittRemover.hooks.worldguard;
+package dev.smartshub.hhittRemover.hook.worldguard;
 
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;

@@ -1,4 +1,4 @@
-package dev.smartshub.hhittRemover.utils;
+package dev.smartshub.hhittRemover.util;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -8,7 +8,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import dev.smartshub.hhittRemover.cleaner.CleanManager;
-import dev.smartshub.hhittRemover.hooks.worldguard.FlagManager;
+import dev.smartshub.hhittRemover.hook.worldguard.FlagManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -18,13 +18,13 @@ public class ListenerHelper {
 
     private final FlagManager flagManager;
     private final CleanManager cleanManager;
-    private final RemoveUtils removeUtils;
+    private final Remove remove;
     private final WorldGuardPlugin wgPlugin;
 
-    public ListenerHelper(FlagManager flagManager, CleanManager cleanManager, WorldGuardPlugin wgPlugin, RemoveUtils remmoveUtils) {
+    public ListenerHelper(FlagManager flagManager, CleanManager cleanManager, WorldGuardPlugin wgPlugin, Remove remmoveUtils) {
         this.flagManager = flagManager;
         this.cleanManager = cleanManager;
-        this.removeUtils = remmoveUtils;
+        this.remove = remmoveUtils;
         this.wgPlugin = wgPlugin;
     }
 
@@ -61,15 +61,15 @@ public class ListenerHelper {
     }
 
     public boolean isPlacingAllowed(){
-       return removeUtils.isPlacingLimited();
+       return remove.isPlacingLimited();
     }
 
     public void removeBlock(Block block){
-        removeUtils.removeBlock(block);
+        remove.removeBlock(block);
     }
 
     public void removeEntity(Entity entity){
-        removeUtils.removeEntity(entity);
+        remove.removeEntity(entity);
     }
 
     public boolean isWorldCleanable(String worldName){

@@ -1,9 +1,9 @@
-package dev.smartshub.hhittRemover.commands;
+package dev.smartshub.hhittRemover.command;
 
 import dev.smartshub.hhittRemover.HhittRemover;
 import dev.smartshub.hhittRemover.cleaner.CleanManager;
 import dev.smartshub.hhittRemover.config.MainConfigManager;
-import dev.smartshub.hhittRemover.utils.MessageUtils;
+import dev.smartshub.hhittRemover.util.Msg;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,7 @@ public class MainCommand implements CommandExecutor {
 
         // Check for admin permissions
         if(!sender.hasPermission("hhittremover.admin")){
-            MessageUtils.msg(plugin, sender, "no-permission");
+            Msg.msg(plugin, sender, "no-permission");
             return true;
         }
 
@@ -33,12 +33,12 @@ public class MainCommand implements CommandExecutor {
         if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
             mainConfigManager.reloadConfig();
             cleanManager.loadConfig();
-            MessageUtils.msg(plugin, sender, "config-reloaded");
+            Msg.msg(plugin, sender, "config-reloaded");
             return true;
         }
 
         // The sole command is the reload one, then no more commands are available
-        MessageUtils.msg(plugin, sender, "no-such-command");
+        Msg.msg(plugin, sender, "no-such-command");
         return true;
     }
 }
